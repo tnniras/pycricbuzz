@@ -17,6 +17,26 @@ class Cricbuzz():
 		soup = BeautifulSoup(r.text,"html.parser")
 		return soup
 
+	def get_calender(self):
+		# This fetches calender from the provided url
+		xml = self.getxml('http://synd.cricbuzz.com/j2me/1.0/sch_calender.xml')
+		matches = xml.find_all('mch')
+		info = []
+		for match in matches:
+			info.append(self.calender_info(match))
+		return info
+		
+	
+	def calender_info(self, match_calender):
+		c = {}
+		c['desc'] = match_calender['desc']
+		c['srs'] = match_calender['srs']
+		c['date'] = match_calender['ddt']
+		c['venue'] = match_calender['vnu']
+		c['time'] = match_calender['tm']
+		c['mnth_yr'] = match_calender['mnth_yr']
+		return c
+	
 	def matchinfo(self,match):
 		d = {}
 		d['id'] = match['id']
